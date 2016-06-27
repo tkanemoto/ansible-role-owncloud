@@ -1,0 +1,21 @@
+---
+dependencies:
+  - { role: kbrebanov.postgresql }
+
+galaxy_info:
+  author: tkanemoto
+  description: ownCloud
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.9
+  platforms:
+    - name: Debian
+      versions:
+      - all
+    - name: Ubuntu
+      versions:
+      - all
+  galaxy_tags:
+    - system
+    - web
+    - remote
+    - file-management

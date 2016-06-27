@@ -1,0 +1,50 @@
+---
+- name: Add ownCloud repo key
+  apt_key:
+    url='https://download.owncloud.org/download/repositories/stable/{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key'
+    state=present
+
+- name: Add ownCloud repo
+  apt_repository:
+    repo='deb http://download.owncloud.org/download/repositories/stable/{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /'
+    state=present
+    update_cache=yes
+
+- name: Install dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+     - php-zip
+     - php-pgsql
+     - php-xml
+     - php-gd
+     - php-curl
+     - php-smb
+     - php-smbclient
+     - smbclient
+  notify: restart apache
+
+- name: Install ownCloud
+  apt: name=owncloud state=present force=yes
+  notify: restart apache
+
+- name: Create ownCloud PostgreSQL database
+  become: yes
+  become_user: postgres
+  postgresql_db: >
+    name={{ owncloud_database_db }}
+    encoding='UTF-8'
+    state=present
+  tags:
+    - postgresql
+
+- name: Create ownCloud PostgreSQL database user
+  become: yes
+  become_user: postgres
+  postgresql_user: >
+    name={{ owncloud_database_username }}
+    db={{ owncloud_database_db }}
+    password={{ owncloud_database_password }}
+    priv=ALL
+    state=present
+  tags:
+    - postgresql
