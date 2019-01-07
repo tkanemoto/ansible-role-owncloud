@@ -1,4 +1,8 @@
 ---
+- name: Include version-specific variables for Ubuntu.
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when: ansible_distribution == 'Ubuntu'
+
 - name: Add ownCloud repo key
   apt_key:
     url='https://download.owncloud.org/download/repositories/production/{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key'
@@ -14,16 +18,7 @@
 
 - name: Install dependencies
   apt: pkg={{ item }} state=present
-  with_items:
-     - php-zip
-     - php-pgsql
-     - php-xml
-     - php-gd
-     - php-curl
-     - php-smb
-     - php-smbclient
-     - smbclient
-     - php-apcu
+  with_items: '{{ owncloud_dependencies }}'
   notify: restart apache
   tags: [owncloud]
 

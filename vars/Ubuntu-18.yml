@@ -1,0 +1,14 @@
+---
+owncloud_dependencies:
+  - php-zip
+  - php-pgsql
+  - php-xml
+  - php-gd
+  - php-curl
+  - php-smbclient
+  - smbclient
+  - php-apcu
+  - php-bz2
+  - php-imagick
+  - php-intl
+  - php-mbstring
