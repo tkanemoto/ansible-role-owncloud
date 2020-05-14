@@ -9,3 +9,5 @@ owncloud_dependencies:
   - php-smbclient
   - smbclient
   - php-apcu
+  - php-redis
+  - redis-server
