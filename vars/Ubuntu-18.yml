@@ -12,3 +12,5 @@ owncloud_dependencies:
   - php-imagick
   - php-intl
   - php-mbstring
+  - php-redis
+  - redis-server
